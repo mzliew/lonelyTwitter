@@ -24,11 +24,6 @@ public abstract class Tweet implements Tweetable{
         this.date = date;
     }
 
-    public Tweet() {
-        super();
-        this.date = new Date();
-    }
-
     public Date getDate() {
         return date;
     }

@@ -10,11 +10,7 @@ public abstract class Mood {
 
     private Date date;
 
-    public Mood(Date date)
-    {
-        this.date = date;
-    }
-    public Mood() {
+    public Mood(Date date) {
         this.date = new Date(System.currentTimeMillis());
     }
 

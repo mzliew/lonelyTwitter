@@ -51,7 +51,7 @@ public class LonelyTwitterActivity extends Activity {
                 }
 
                 String string = tweet.getMessage();
-
+				//Mood
                 ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
                 tweetList.add(tweet);
                 tweetList.add(normalTweet);
@@ -101,6 +101,8 @@ public class LonelyTwitterActivity extends Activity {
 					Context.MODE_APPEND);
 			fos.write(new String(date.toString() + " | " + text)
 					.getBytes());
+			fos.write(new String("\n").getBytes());
+
 			fos.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
