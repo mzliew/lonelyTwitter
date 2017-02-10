@@ -56,26 +56,20 @@ public class ElasticsearchTweetController {
         @Override
         protected ArrayList<NormalTweet> doInBackground(String... search_parameters) {
             verifySettings();
-
             ArrayList<NormalTweet> tweets = new ArrayList<NormalTweet>();
-            String query = {
-                    "( \n\"query\" : {\n" +
-                    " \"term\" : { \"message\" : \"" +
-                            search_parameters[0] +
-                            "\" }\n" +
-                            "}\n" +
-                            ""
-
-            }
-
-
+            String query =
+                    "{ \n\"query\" : {\n" +
+                            "    \"term\" : { \"message\" : \"" + search_parameters[0] +
+                            "\"     }\n " +
+                            "    }\n" +
+                            " } ";
             Search search = new Search.Builder(query)
                         .addIndex("testing")
                         .addType("tweet")
                         .build();
 
+            System.out.print(query);
             try {
-               // TODO get the results of the query
                 SearchResult result = client.execute(search);
                 if (result.isSucceeded()){
                     List<NormalTweet> foundTweets = result.getSourceAsObjectList(NormalTweet.class);
@@ -88,7 +82,6 @@ public class ElasticsearchTweetController {
             catch (Exception e) {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
             }
-
             return tweets;
         }
     }
@@ -100,7 +93,6 @@ public class ElasticsearchTweetController {
         if (client == null) {
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
             DroidClientConfig config = builder.build();
-
             JestClientFactory factory = new JestClientFactory();
             factory.setDroidClientConfig(config);
             client = (JestDroidClient) factory.getObject();
