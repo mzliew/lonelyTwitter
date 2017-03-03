@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.robotium.solo.Solo;
 
@@ -29,7 +30,6 @@ public class LonelyTwitterActivityTest extends ActivityInstrumentationTestCase2 
 
     }
 
-
 	public void testTweet(){
 		solo.assertCurrentActivity("Wrong Activity", LonelyTwitterActivity.class);
         solo.clickOnButton("Clear");
@@ -48,17 +48,18 @@ public class LonelyTwitterActivityTest extends ActivityInstrumentationTestCase2 
         solo.clickOnButton("Clear");
         solo.enterText((EditText)solo.getView(R.id.body),"Test Tweet!");
         solo.clickOnButton("Save");
-
         solo.waitForText("Test Tweet!");
         final ListView oldTweetsList = activity.getOldTweetsList();
         Tweet tweet = (Tweet)oldTweetsList.getItemAtPosition(0);
         assertEquals("Test Tweet!", tweet.getMessage());
         solo.clickInList(0);
-
         solo.assertCurrentActivity("Wrong Activity",EditTweetActivity.class);
-        assertTrue(solo.waitForText("TextView"));
-        solo.goBack();
-        solo.assertCurrentActivity("Wrong Activity",LonelyTwitterActivity.class);
+        EditTweetActivity eta = (EditTweetActivity)solo.getCurrentActivity();
+        solo.waitForText("Test Tweet!");
+        TextView tweetMessage = eta.getMessage();
+        TextView tweetDate = eta.getDate();
+        assertEquals("Test Tweet!", tweetMessage.getText());
+        assertEquals(tweet.getDate().toString(), tweetDate.getText().toString());
     }
 
 	@Override
